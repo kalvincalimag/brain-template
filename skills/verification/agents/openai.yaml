@@ -1,0 +1,3 @@
+interface:
+  display_name: "Verification"
+  short_description: "Verify a complete user story end to end"
