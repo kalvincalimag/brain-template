@@ -1,0 +1,4 @@
+interface:
+  display_name: "Bugfix"
+  short_description: "Reproduce, fix, and verify bugs end to end"
+  default_prompt: "Use $bugfix to reproduce this bug, fix it with TDD, and verify it through manual QA and the repository delivery loop."

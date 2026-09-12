@@ -1,0 +1,4 @@
+interface:
+  display_name: "Post-Superplan Execution Loop"
+  short_description: "Plan, execute, merge, QA, fix, and write back"
+  default_prompt: "Use $post-superplan-execution-loop to run the approved plan through the repository merge path, deployed QA, bounded bug fixes, and project-local writeback."

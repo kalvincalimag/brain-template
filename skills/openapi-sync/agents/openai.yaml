@@ -1,0 +1,6 @@
+interface:
+  display_name: "OpenAPI Sync"
+  short_description: "Keep API source and OpenAPI contracts synchronized"
+  default_prompt: "Use $openapi-sync to update this API endpoint and its OpenAPI contract together."
+policy:
+  allow_implicit_invocation: true

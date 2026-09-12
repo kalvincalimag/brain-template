@@ -1,0 +1,4 @@
+interface:
+  display_name: "Merge Feature"
+  short_description: "Publish through the repository's PR workflow"
+  default_prompt: "Use $merge-feature to publish this completed branch through the repository's documented pull-request workflow and stop at its promotion boundary."
