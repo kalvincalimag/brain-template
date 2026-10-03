@@ -1,0 +1,20 @@
+# Files every brain must have. Profiles add tests/required/<profile>.txt.
+.gitattributes
+.gitignore
+.claude/settings.json
+.claude/skills/writeback/SKILL.md
+AGENTS.md
+CLAUDE.md
+README.md
+artifacts/README.md
+memory/MEMORY.md
+memory/decisions.md
+memory/overview.md
+planning/README.md
+private/README.md
+research/index.md
+scripts/validate-brain.sh
+sessions/README.md
+skills/README.md
+templates/decision-record.md
+templates/session-summary.md

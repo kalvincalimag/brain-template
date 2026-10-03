@@ -1,0 +1,37 @@
+# Sensitive values stay local and out of Git
+/private/*
+!/private/README.md
+
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+.claude/settings.local.json
+
+# Agent runtime state and raw interaction data
+/.codex/
+/raw-transcripts/
+rollout-*.jsonl
+*.sqlite
+*.sqlite3
+*.sqlite-shm
+*.sqlite-wal
+
+# Generated files, caches, and logs
+node_modules/
+.cache/
+coverage/
+dist/
+build/
+*.log
+*.tmp
+
+# Editor and operating-system files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+.obsidian/
+*~

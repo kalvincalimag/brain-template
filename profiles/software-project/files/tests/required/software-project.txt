@@ -1,0 +1,5 @@
+# Files the software-project profile adds.
+memory/product.md
+memory/project.md
+memory/team-onboarding.md
+migrations/README.md

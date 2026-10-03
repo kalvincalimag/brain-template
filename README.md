@@ -1,37 +1,26 @@
-# Brain Template
+# Brain template
 
-Reusable starter for a curated project knowledge base ("brain"). Copy this repo, fill in the memory stubs for your project, and keep durable knowledge separate from agent runtime state.
+Builds brains. A brain is a local, curated knowledge base for one purpose. You start an agent session in its directory, the agent reads the brain's memory, and it writes durable knowledge back when the work is done.
 
-This is not an application source repository. It stores reviewed facts, decisions, session handoffs, plans, research, and intentional artifacts.
+## Create a brain
 
-## Structure
+With Claude Code, run the `new-brain` skill and describe the purpose. It reviews this template against the purpose, improves the template where it falls short, interviews you, creates the brain, and checks it.
 
-- `memory/` — durable, reviewed project knowledge and its compact index (`MEMORY.md`)
-- `sessions/` — curated chronological summaries of meaningful work
-- `planning/` — active plans and archived planning / decision records
-- `research/` — source tracking, notes, and synthesis (not automatic truth)
-- `artifacts/` — intentional deliverables with provenance
-- `skills/` — project-local repeatable agent workflows
-- `templates/` — content-free session and decision templates
-- `scripts/` and `tests/` — brain-structure validation
-- `migrations/` — optional notes when transferring context between tools or accounts
+Without the skill:
 
-## Runtime separation
+```bash
+bash scripts/new-brain.sh --dest ../brains/my-brain --name "My brain" \
+  --purpose "One sentence on what this brain is for." --profile personal-admin
+```
 
-Agent runtimes (for example Codex under `~/.codex`) keep raw sessions, attachments, caches, and credentials outside this repo. A local `.codex/` directory, raw rollout JSONL, databases, credentials, caches, and transcripts must remain uncommitted.
+Then fill in `memory/overview.md` in the new brain.
 
-## Working loop
+## Layout
 
-1. Read `AGENTS.md` and `memory/MEMORY.md`.
-2. Load only the material relevant to the current task.
-3. Keep research and proposals distinct from confirmed durable knowledge.
-4. Record meaningful work as a curated session summary.
-5. Promote stable information to topical memory and update the compact index when needed.
-6. Run `bash scripts/validate-brain.sh` before delivery.
-
-## Getting started
-
-1. Fill in `memory/overview.md`, `memory/project.md`, `memory/product.md`, `memory/decisions.md`, and `memory/team-onboarding.md` for your project.
-2. Keep `memory/MEMORY.md` as a short navigation index (under 200 lines).
-3. Add session summaries under `sessions/YYYY/MM/` using `templates/session-summary.md`.
-4. Record decisions with `templates/decision-record.md` when they become durable.
+- `core/` is copied into every brain.
+- `profiles/` holds optional structure for a class of purpose. Each profile's `PROFILE.md` says when to use it.
+  - `personal-admin` is for taxes, government contributions, benefits, bills, IDs, and renewals.
+  - `software-project` is for a software product and its delivery.
+- `scripts/new-brain.sh` builds a brain from core and the chosen profiles.
+- `tests/test-template.sh` builds brains from every profile and checks them. Run it before every commit.
+- `TEMPLATE.md` says what may change here, how to review fitness for a new purpose, and what changed so far.

@@ -1,4 +1,0 @@
-interface:
-  display_name: "Execution Discipline"
-  short_description: "Evidence-based execution, verification, and scoped handoffs"
-  default_prompt: "Use $execution-discipline to keep this non-trivial task scoped, verified, and evidence-based."

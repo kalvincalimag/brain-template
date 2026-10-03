@@ -1,0 +1,3 @@
+- [Product](product.md): product thesis, capabilities, roadmap, and open questions.
+- [Project](project.md): repositories, environments, and source hierarchy.
+- [Team onboarding](team-onboarding.md): people, roles, access, and norms.

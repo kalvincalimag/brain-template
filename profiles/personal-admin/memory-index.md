@@ -1,0 +1,4 @@
+- [Profile](profile.md): jurisdiction, income type, registrations, and dependents that decide which obligations apply.
+- [Obligations](obligations.md): every recurring filing, contribution, payment, and renewal, with due rules, next due dates, and sources.
+- [Documents](documents.md): where each important document is kept and when it expires.
+- [Records](../records/README.md): what was actually filed or paid, by year and agency.
