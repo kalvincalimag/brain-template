@@ -87,6 +87,20 @@ for p in "${profiles[@]}" all; do
   done
 done
 
+# Real paths and names have spaces, quotes, and ampersands.
+dest="$work/with space/Someone's brain"
+odd_name="Someone's \"Admin\" Brain & Co"
+check "spaced path: new-brain.sh failed" bash "$new_brain" --dest "$dest" --name "$odd_name" --purpose "Purpose" --profile personal-admin
+check "spaced path: validator fails" bash "$dest/scripts/validate-brain.sh"
+check "spaced path: odd name not in README" grep -qxF "# $odd_name" "$dest/README.md"
+
+# A profile named twice is applied once.
+check "repeated profile: new-brain.sh failed" bash "$new_brain" --dest "$work/repeat" --name X --purpose Y --profile personal-admin --profile personal-admin
+check "repeated profile: origin lists it twice" grep -q 'Profiles: personal-admin\.$' "$work/repeat/memory/overview.md"
+
+# The new brain lets the agent run its own check and read git state without prompts.
+check "settings do not allow the validator" grep -qF '"Bash(bash scripts/validate-brain.sh)"' "$work/core-only/.claude/settings.json"
+
 # The instantiator refuses bad input.
 check_refuses "accepted a non-empty destination" "not empty" bash "$new_brain" --dest "$work/core-only" --name X --purpose Y
 check_refuses "accepted an unknown profile" "unknown profile" bash "$new_brain" --dest "$work/unknown" --name X --purpose Y --profile no-such-profile

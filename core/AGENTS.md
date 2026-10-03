@@ -29,6 +29,8 @@ Before meaningful work:
 
 Do not load every memory or session by default. Load what the task needs, so stale material does not leak into answers.
 
+Before researching a question or asking the user for a fact, check whether this brain already records it. Search `memory/`, `research/`, `planning/`, and `sessions/`. Rediscovering what the brain already knows is the failure this brain exists to prevent.
+
 ## Knowledge architecture
 
 - `memory/` holds curated durable knowledge. `memory/MEMORY.md` is a short index, not a content dump, and stays under 200 lines.
@@ -68,25 +70,18 @@ A brain holds knowledge only. Skills are out of scope. Claude Code loads the use
 
 ## Verification
 
-After changing this brain's structure, run:
-
-```bash
-bash scripts/validate-brain.sh
-git diff --check
-```
-
-State anything you could not verify.
+After every writeback or structural change, run `bash scripts/validate-brain.sh`. Once the brain has commits, also run `git diff --check`. State anything you could not verify.
 
 ## Session writeback
 
-Writeback is how this brain remembers. Do it without being asked, before the final reply of any task that produced knowledge worth keeping. When the user says "write back", run the same steps on demand.
+Writeback is how this brain remembers. Do it without being asked, before the final reply of any task that produced knowledge worth keeping. When the user says "write back", run the same steps on demand. Writeback only edits files in this brain and never commits, so a rule that gates commits or pushes does not block it.
 
 1. Decide what is durable. That means facts about the subject, decisions, completed actions, sourced external rules, and open questions that will matter next time.
-2. For a small exchange, promote the fact into the right `memory/` file. No session file is needed.
-3. For meaningful work, also write `sessions/YYYY/MM/YYYY-MM-DD-<slug>.md` from `templates/session-summary.md`.
-4. Update `memory/MEMORY.md` when its navigation or active context changes.
+2. Promote each durable fact into the right `memory/` file. Record a decision under `planning/decisions/` from `templates/decision-record.md`, and index it in `memory/decisions.md`.
+3. Write a session file, `sessions/YYYY/MM/YYYY-MM-DD-<slug>.md` from `templates/session-summary.md`, when the task did any of these: made or changed a decision, recorded a completed action, produced research or a deliverable, or changed more than one memory file. A single fact needs no session file.
+4. In `memory/MEMORY.md`, link each new session file under "Recent sessions", update "Active context" and navigation when they change, and set "Last consolidated" to today.
 5. Mark uncertain items as uncertain. Flag questionable stale entries instead of deleting them.
-6. Tell the user in one line what you wrote and where.
+6. Run the verification above, then tell the user in one line what you wrote and where.
 
 A session file is curated history, not a transcript. If writeback cannot be finished, say what is missing. It never blocks the answer.
 

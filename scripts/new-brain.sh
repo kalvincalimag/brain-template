@@ -10,6 +10,9 @@ set -euo pipefail
 
 template_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
+# Git for Windows cannot "git -C" into a path with an apostrophe, so run git from inside the directory.
+git_in() { local dir="$1"; shift; (cd "$dir" && git "$@"); }
+
 die() { printf 'new-brain: %s\n' "$1" >&2; exit 1; }
 
 dest="" name="" purpose=""
@@ -19,7 +22,9 @@ while (($#)); do
     --dest) dest="${2:-}"; shift 2 ;;
     --name) name="${2:-}"; shift 2 ;;
     --purpose) purpose="${2:-}"; shift 2 ;;
-    --profile) profiles+=("${2:-}"); shift 2 ;;
+    --profile)
+      case " ${profiles[*]-} " in *" ${2:-} "*) ;; *) profiles+=("${2:-}") ;; esac
+      shift 2 ;;
     -h|--help) sed -n '2,8p' "${BASH_SOURCE[0]}"; exit 0 ;;
     *) die "unknown argument: $1" ;;
   esac
@@ -36,9 +41,9 @@ for p in ${profiles[@]+"${profiles[@]}"}; do
 done
 
 template_ref="unversioned"
-if git -C "$template_root" rev-parse --git-dir >/dev/null 2>&1; then
-  template_ref="$(git -C "$template_root" rev-parse --short HEAD 2>/dev/null || echo unborn)"
-  if [[ -n "$(git -C "$template_root" status --porcelain)" ]]; then
+if git_in "$template_root" rev-parse --git-dir >/dev/null 2>&1; then
+  template_ref="$(git_in "$template_root" rev-parse --short HEAD 2>/dev/null || echo unborn)"
+  if [[ -n "$(git_in "$template_root" status --porcelain)" ]]; then
     template_ref="$template_ref with uncommitted template changes"
   fi
 fi
@@ -84,8 +89,8 @@ done < <(find "$staging" -type f -name '*.md' -print0)
 
 mkdir -p "$dest"
 cp -R "$staging/." "$dest/"
-git -C "$dest" init -q
-git -C "$dest" symbolic-ref HEAD refs/heads/main
+git_in "$dest" init -q
+git_in "$dest" symbolic-ref HEAD refs/heads/main
 
 bash "$dest/scripts/validate-brain.sh" >/dev/null
 printf 'Created brain "%s" at %s\n' "$name" "$dest"
