@@ -1,4 +1,0 @@
-interface:
-  display_name: "Deploy Website"
-  short_description: "Deploy to Vercel and connect GoDaddy DNS safely"
-  default_prompt: "Use $deploy-website to inspect this web project, deploy it through the authorized Vercel path, and connect the approved GoDaddy domain with reversible DNS changes and verification."

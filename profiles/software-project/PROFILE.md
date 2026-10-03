@@ -12,8 +12,13 @@ The purpose is personal, financial, or administrative. Use `personal-admin` for 
 
 - `memory/product.md`, `memory/project.md`, `memory/team-onboarding.md`.
 - `migrations/README.md`, for reviewed context transferred between tools or accounts.
-- Ten workflow skills under `skills/`: `super-plan`, `bugfix`, `merge-feature`, `post-superplan-execution-loop`, `execution-discipline`, `agent-browser`, `agent-browser-verify`, `verification`, `deploy-website`, `openapi-sync`.
-- Rules for test-driven changes and Git delivery in `AGENTS.md`.
+- Rules in `AGENTS.md` for delivery, project sources, and which skills to use.
+
+## Skills it needs
+
+This profile copies no skills into the brain. It uses the skills pack at `https://github.com/kalvincalimag/claude-skills`, installed user-wide in `~/.claude/skills`. The pack is the source of truth, so the brain never holds a stale or clashing copy.
+
+Needed from the pack: `investigate`, `plan`, `implement`, `test-design`, `bugfix`, `verify`, `ship`, `writing-discipline`.
 
 ## Interview
 
@@ -23,7 +28,3 @@ Ask these when creating the brain, and record the answers in the files named:
 2. What is the authoritative source of product intent, such as a PRD? (`memory/product.md`, `memory/overview.md` under "Authority")
 3. Who is on the team, and in what roles? (`memory/team-onboarding.md`)
 4. Should writeback ever be pushed to a remote, and by which account? (`AGENTS.md` profile rules, only if the user says yes)
-
-## Known issues
-
-- The ten skills came from an earlier project brain. Several overlap with global skills that may exist on the machine, such as `bugfix`, `verify`, and `ship`. Before creating a brain with this profile, compare them with the global skills and keep only what does not duplicate them.
