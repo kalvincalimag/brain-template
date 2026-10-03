@@ -1,4 +1,5 @@
 - [Profile](profile.md): facts about the person that decide which responsibilities apply.
 - [Obligations](obligations.md): every recurring responsibility, with due rules, next due dates, and sources.
 - [Documents](documents.md): where each important document is kept and when it expires.
+- [Procedures](procedures.md): step-by-step ways to get recurring tasks done, with the date each was last confirmed.
 - [Records](../records/README.md): what was actually done, by year and organization.

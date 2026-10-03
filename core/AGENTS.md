@@ -88,6 +88,6 @@ A session file is curated history, not a transcript. If writeback cannot be fini
 
 ## Template feedback
 
-This brain was built from brain-template. `memory/overview.md` records the version under "Origin". When you notice a structural improvement that would help any brain, add it to `planning/template-feedback.md` and tell the user. The `new-brain` skill carries those notes back into the template. Facts about this brain's subject stay here.
+This brain was built from brain-template. `memory/overview.md` records the version under "Origin". When you notice a structural improvement that would help any brain, add it to `planning/template-feedback.md` and tell the user. Write the note so it fits any user: no country, institution, currency, language, or agent from this brain, and no examples drawn from its subject. The template's `TEMPLATE.md`, under "Carry feedback back from a brain", says how those notes reach the template. Facts about this brain's subject stay here.
 
 <!-- PROFILE RULES -->

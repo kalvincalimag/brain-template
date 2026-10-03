@@ -13,6 +13,7 @@ The purpose is a software or work project. Use `software-project` for that.
 - `memory/profile.md`, facts about the person that decide which responsibilities apply.
 - `memory/obligations.md`, every recurring responsibility with its due rule, next due date, and source.
 - `memory/documents.md`, where each important document is kept.
+- `memory/procedures.md`, step-by-step ways to get recurring tasks done.
 - `records/`, a log of completed actions by year and organization.
 - Rules in `AGENTS.md` for a due-date check at startup, sourcing outside rules, showing calculations, and never acting outside the brain without a request.
 

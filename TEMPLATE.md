@@ -25,6 +25,9 @@ Two breadth checks keep the template general. Write their answers in the changel
 
 ## What never enters the template
 
+The template assumes nothing about who uses it. Every file, rule, and example must fit any user, in any country, with any agent.
+
+- Assumptions about the user: their country, laws, currency, language, institutions, profession, operating system, or AI agent.
 - Facts about a person, project, or organization.
 - Facts that go stale: rates, deadlines, prices, laws, versions, and links to specific forms.
 - Examples that reveal what the template's owner uses it for. Use neutral examples.
@@ -51,7 +54,7 @@ A profile never writes a path that core or another profile writes. `scripts/new-
 ## Create a brain
 
 1. **Get the purpose.** Ask what the brain is for, what it should help decide or do, and what is out of scope. If the request already says, restate it in one sentence and confirm it in the interview. Do not continue without a purpose.
-2. **Sync the template.** In this repository, the branch must be `main` with no uncommitted changes. Pull the latest with `git pull --ff-only`. If there are uncommitted changes or the branch has diverged, stop and ask.
+2. **Sync the template.** In this repository, the branch must be `main`. If an earlier run left unpublished template changes, show them and ask the user whether to publish or discard them before continuing. Then pull the latest with `git pull --ff-only`. If the branch has diverged from GitHub, stop and ask.
 3. **Review fitness.** Follow "Fitness review" below for this purpose.
 4. **Improve the template, only where the review found a gap.** Follow "Changing the template" for each core or profile gap. If every gap is brain-level, change nothing.
 5. **Interview.** Ask in one batch: the brain's name, where to create it, and the "Interview" questions of each chosen profile. Skip anything already answered.
@@ -81,12 +84,12 @@ Do not assume the template fits because a profile's name sounds right.
 1. Write the purpose as a class, without personal facts. A purpose about one person's household paperwork becomes "life admin".
 2. Read every file in `core/`. For each, decide whether this brain needs it, whether it would mislead, and whether anything is missing.
 3. Read each `profiles/*/PROFILE.md`. Choose the profiles whose "Use when" fits and whose "Do not use when" does not. Read the files of each chosen profile the same way as core.
-4. List every gap and mismatch. Give each one a level: core, profile, or brain, using the rules in "What lives where".
+4. List every gap and mismatch. Give each one a level: core, profile, or brain, using the rules in "What lives where". Anything that depends on where the user lives or which institutions they deal with is brain-level.
 5. Keep the fit report short. It goes into the new brain's first session file and, when the template changes, into the changelog.
 
 ## Changing the template
 
-1. Make the smallest structural change that closes the gap.
+1. Make the smallest structural change that closes the gap. Before writing it, check it against "What never enters the template": if it would fit only users in one country, with one institution, or with one agent, it belongs in the brain, not here.
 2. If the change alters `scripts/new-brain.sh`, the validator, or how profiles compose, add a check to `tests/test-template.sh` first and watch it fail.
 3. Run `bash tests/test-template.sh` until it passes.
 4. Add a dated line to the changelog: the purpose class that exposed the gap, what changed, why, and the breadth check answers.
@@ -109,3 +112,5 @@ A brain records structural improvements in its `planning/template-feedback.md`.
 - 2026-10-03, all purposes: skills are out of scope for brains. Removed core's `skills/` folder and its writeback skill; writeback is triggered by asking for it. Procedures are recorded as knowledge in `memory/`. The tests and each brain's validator fail on any `SKILL.md`. Breadth: every brain, since the user's own skills already load in every session.
 - 2026-10-03, all purposes (adversarial review): `AGENTS.md` now lists exactly when a session file is required, says writeback needs no commit, and tells the agent to search the brain before researching or asking. `memory/MEMORY.md` caps recent sessions at ten. Brain settings allow the validator and read-only git commands without prompts. `scripts/new-brain.sh` and the validator handle apostrophes in paths and a repeated profile. Breadth: every brain.
 - 2026-10-03, all purposes: the template now serves any AI agent on macOS, Windows, or Linux. The creation procedure moved into this file from an agent-specific skill, and a root `AGENTS.md` points agents here. `core/AGENTS.md` treats `CLAUDE.md` as one adapter among agents. Requirements are documented, and a test rejects bash-4-only features and GNU-only flags. The first profile became `life-admin`, rewritten in neutral terms, and examples that described the owner's own use were removed. Breadth: every brain, whichever agent or operating system its owner uses.
+- 2026-10-03, life admin: a secretary brain needs a home for step-by-step procedures, and the obligations table holds only one line per task. Added `memory/procedures.md` to the life-admin profile, linked from each obligation. `core/AGENTS.md` now points to this file, not to one agent's skill, for carrying feedback back. Breadth: procedures fit a household brain (renewing a vehicle registration) and a relocation brain (renewing a visa); the feedback pointer helps every brain whichever agent runs it. Creation step 2 now asks whether to publish or discard leftover template changes instead of stopping.
+- 2026-10-03, all purposes: made explicit that the template assumes nothing about who uses it: no country, laws, currency, language, institutions, profession, operating system, or agent. The fitness review classes anything location- or institution-specific as brain-level, every template change is checked against that rule before it is written, and brains must word template feedback so it fits any user. Breadth: every brain and every user.

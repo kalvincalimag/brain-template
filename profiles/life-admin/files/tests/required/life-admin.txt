@@ -3,3 +3,4 @@ memory/profile.md
 memory/obligations.md
 memory/documents.md
 records/README.md
+memory/procedures.md
