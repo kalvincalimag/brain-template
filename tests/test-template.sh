@@ -32,6 +32,10 @@ for p in "${profiles[@]}"; do
   done
 done
 
+# Skills are out of scope for brains, so the template ships none.
+check "template contains a skill" test -z "$(find "$template_root/core" "$template_root/profiles" -name SKILL.md)"
+check_not "core still has a skills/ folder" test -e "$template_root/core/skills"
+
 # The template never carries content from the brain it was derived from.
 check_not "template contains source-brain content" \
   grep -rEil --exclude-dir=.git 'source-brain-name' "$template_root/core" "$template_root/profiles"
@@ -114,6 +118,8 @@ b="$(broken long-index)"; for i in $(seq 1 210); do printf 'line %s\n' "$i" >> "
 check_refuses "validator passed with MEMORY.md over 200 lines" "200-line limit" bash "$b/scripts/validate-brain.sh"
 b="$(broken private)"; printf 'secret\n' > "$b/private/ids.md"; git -C "$b" add -f private/ids.md
 check_refuses "validator passed with a tracked file in private/" "private/ids.md" bash "$b/scripts/validate-brain.sh"
+b="$(broken skill)"; mkdir -p "$b/.claude/skills/helper"; printf -- '---\nname: helper\n---\n' > "$b/.claude/skills/helper/SKILL.md"
+check_refuses "validator passed with a skill inside the brain" "skills are out of scope.*helper/SKILL.md" bash "$b/scripts/validate-brain.sh"
 
 printf '%s checks passed, %s failed\n' "$passes" "$failures"
 ((failures == 0))

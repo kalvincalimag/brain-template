@@ -41,6 +41,9 @@ done
 placeholders="$(grep -rlE --exclude-dir=.git '\{\{(BRAIN_NAME|PURPOSE|CREATED|TEMPLATE_REF|PROFILES)\}\}' "$repo_root" 2>/dev/null)"
 [[ -n "$placeholders" ]] && report "unfilled placeholder in: ${placeholders//$'\n'/, }"
 
+skills="$(find "$repo_root" -path "$repo_root/.git" -prune -o -name SKILL.md -print 2>/dev/null)"
+[[ -n "$skills" ]] && report "skills are out of scope for a brain; keep them in ~/.claude/skills: ${skills//$'\n'/, }"
+
 if git -C "$repo_root" rev-parse --git-dir >/dev/null 2>&1; then
   tracked_private="$(git -C "$repo_root" ls-files -- private | grep -vx 'private/README.md')"
   [[ -n "$tracked_private" ]] && report "files in private/ must never be tracked by git: ${tracked_private//$'\n'/, }"

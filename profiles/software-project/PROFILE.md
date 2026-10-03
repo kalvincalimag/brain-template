@@ -12,13 +12,7 @@ The purpose is personal, financial, or administrative. Use `personal-admin` for 
 
 - `memory/product.md`, `memory/project.md`, `memory/team-onboarding.md`.
 - `migrations/README.md`, for reviewed context transferred between tools or accounts.
-- Rules in `AGENTS.md` for delivery, project sources, and which skills to use.
-
-## Skills it needs
-
-This profile copies no skills into the brain. It uses the skills pack at `https://github.com/kalvincalimag/claude-skills`, installed user-wide in `~/.claude/skills`. The pack is the source of truth, so the brain never holds a stale or clashing copy.
-
-Needed from the pack: `investigate`, `plan`, `implement`, `test-design`, `bugfix`, `verify`, `ship`, `writing-discipline`.
+- Rules in `AGENTS.md` for delivery and project sources.
 
 ## Interview
 

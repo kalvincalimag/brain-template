@@ -21,13 +21,13 @@ Two breadth checks keep the template general. Write their answers in the changel
 - Facts that go stale: rates, deadlines, prices, laws, versions, and URLs to specific forms.
 - Credentials of any kind.
 - Content copied from an existing brain. Carry over only the structural idea, rewritten so it fits any subject.
-- Copies of skills that live in a skills pack. A profile names the pack skills it needs under "Skills it needs" in its `PROFILE.md`. Only a procedure specific to the profile's class of purpose may live in its `files/skills/`.
+- Skills of any kind. Skills are out of scope for brains. They are the user's own tools, installed in `~/.claude/skills`, and Claude Code loads them in every session, including sessions in a brain. A brain records repeatable procedures as knowledge in `memory/`. The tests and every brain's validator fail on any `SKILL.md`.
 
 ## Profile anatomy
 
 Each profile directory has:
 
-- `PROFILE.md` with these sections: "Use when", "Do not use when", "What it adds", "Interview", and optionally "Skills it needs", "Boundaries", "Known issues", or "Known gaps".
+- `PROFILE.md` with these sections: "Use when", "Do not use when", "What it adds", "Interview", and optionally "Boundaries", "Known issues", or "Known gaps".
 - `agents-rules.md`, which starts with one `## <Name> rules` heading. `scripts/new-brain.sh` appends it to the brain's `AGENTS.md`.
 - `memory-index.md`, the navigation lines `scripts/new-brain.sh` adds to the brain's `memory/MEMORY.md`.
 - `files/`, copied into the brain at the same relative paths. It must include `files/tests/required/<name>.txt`, which lists the files the brain's validator requires.
@@ -61,3 +61,4 @@ Run this before creating any brain. Do not assume the template fits because a pr
 
 - 2026-10-03, personal administration: the first non-software purpose showed that the template assumed a software project. Split it into `core/` and `profiles/`. Moved product, project, and team memory, `migrations/`, and the ten workflow skills into the `software-project` profile. Added the `personal-admin` profile with obligations, records, documents, and a startup deadline check. Core gained `private/` for sensitive values, `@` imports in `CLAUDE.md` so memory loads at launch, auto memory turned off so `memory/` is the only store, a `/writeback` command, writeback without being asked, a recorded template origin, and `planning/template-feedback.md` for carrying improvements back. Added `scripts/new-brain.sh`, `tests/test-template.sh`, and the breadth checks. Breadth: `personal-admin` fits a household budget brain and a visa or relocation brain as well as taxes; the core additions help a learning brain, a health brain, and a software brain alike.
 - 2026-10-03, software project: the profile carried ten skill copies that duplicated and drifted from the user's skills pack. Removed them. The profile now names the pack skills it needs, and `TEMPLATE.md` forbids copying pack skills into the template. Breadth: removal only; every software brain now shares one current set of skills.
+- 2026-10-03, all purposes: skills are now out of scope for brains. Removed core's `skills/` folder and the `/writeback` skill; writeback is triggered by asking for it. Removed the software-project skill list. Procedures are recorded as knowledge in `memory/`. The template tests and each brain's validator now fail on any `SKILL.md`. Breadth: applies to every brain, since the user's installed skills already load in every session.

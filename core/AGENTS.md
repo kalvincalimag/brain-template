@@ -25,8 +25,7 @@ Before meaningful work:
 1. Read this file and any model-specific instruction file.
 2. Read `memory/MEMORY.md`, the compact navigation index.
 3. Run any startup checks in the profile rules below.
-4. Read only the memory, planning, research, session, or skill files the task needs.
-5. Check `skills/` before inventing a repeatable procedure.
+4. Read only the memory, planning, research, or session files the task needs.
 
 Do not load every memory or session by default. Load what the task needs, so stale material does not leak into answers.
 
@@ -37,11 +36,12 @@ Do not load every memory or session by default. Load what the task needs, so sta
 - `planning/` holds active plans, dated decision records, and archived plans.
 - `research/` holds sources, notes, and synthesis that has not yet become durable memory.
 - `artifacts/YYYY/MM/YYYY-MM-DD-<slug>/` holds deliberate deliverables and their provenance.
-- `skills/<skill-name>/SKILL.md` holds repeatable procedures specific to this brain.
 - `private/` holds sensitive values the user chose to keep. Git ignores everything in it except its `README.md`.
 - `templates/` holds content-free document shapes.
 - `scripts/` and `tests/` hold this brain's structure checks.
-- `.claude/` holds Claude Code settings and the `/writeback` command for this brain.
+- `.claude/settings.json` holds Claude Code settings for this brain.
+
+A brain holds knowledge only. Skills are out of scope. Claude Code loads the user's installed skills in every session, including sessions here, so this brain never contains a skill. A repeatable procedure, such as how a payment is made, is knowledge. Record it in `memory/` with the date each step was last confirmed.
 
 ## Knowledge standards
 
@@ -79,7 +79,7 @@ State anything you could not verify.
 
 ## Session writeback
 
-Writeback is how this brain remembers. Do it without being asked, before the final reply of any task that produced knowledge worth keeping. The `/writeback` command runs the same steps on demand.
+Writeback is how this brain remembers. Do it without being asked, before the final reply of any task that produced knowledge worth keeping. When the user says "write back", run the same steps on demand.
 
 1. Decide what is durable. That means facts about the subject, decisions, completed actions, sourced external rules, and open questions that will matter next time.
 2. For a small exchange, promote the fact into the right `memory/` file. No session file is needed.

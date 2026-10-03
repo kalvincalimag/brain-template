@@ -1,11 +1,5 @@
 ## Software project rules
 
-### Skills
-
-- Engineering work uses the skills pack installed user-wide: `investigate`, `plan`, `implement`, `test-design`, `bugfix`, `verify`, `ship`, and `writing-discipline`. Do not copy them into this brain.
-- A procedure that only applies to this project goes in this brain's `skills/`.
-- When a pack skill falls short in a way any project would hit, improve it in `~/.claude/skills`, keep it general, and offer to publish it with `sync-skills`.
-
 ### Delivery
 
 - Stage only files that belong to the approved task.

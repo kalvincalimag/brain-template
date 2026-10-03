@@ -11,7 +11,9 @@ cd <this directory>
 claude
 ```
 
-Claude loads `AGENTS.md` and `memory/MEMORY.md` on launch. Ask for what you need. When the work produced something worth keeping, the agent records it before it answers. Type `/writeback` to force that step.
+Claude loads `AGENTS.md` and `memory/MEMORY.md` on launch. Ask for what you need. When the work produced something worth keeping, the agent records it before it answers. Say "write back" to force that step.
+
+The brain holds knowledge, not skills. Your installed Claude skills work here as they do anywhere else.
 
 ## Structure
 
@@ -20,7 +22,6 @@ Claude loads `AGENTS.md` and `memory/MEMORY.md` on launch. Ask for what you need
 - `planning/` holds plans and decision records.
 - `research/` holds sources and notes that are not yet trusted memory.
 - `artifacts/` holds deliverables with provenance.
-- `skills/` holds repeatable procedures for this brain.
 - `private/` holds sensitive values. Git ignores it.
 - `templates/` holds the session and decision shapes.
 - `scripts/` and `tests/` hold the structure check, `bash scripts/validate-brain.sh`.
