@@ -42,7 +42,7 @@ placeholders="$(grep -rlE --exclude-dir=.git '\{\{(BRAIN_NAME|PURPOSE|CREATED|TE
 [[ -n "$placeholders" ]] && report "unfilled placeholder in: ${placeholders//$'\n'/, }"
 
 skills="$(find "$repo_root" -path "$repo_root/.git" -prune -o -name SKILL.md -print 2>/dev/null)"
-[[ -n "$skills" ]] && report "skills are out of scope for a brain; keep them in ~/.claude/skills: ${skills//$'\n'/, }"
+[[ -n "$skills" ]] && report "skills are out of scope for a brain; keep them in your agent's own skills folder:${skills//$'\n'/, }"
 
 if (cd "$repo_root" && git rev-parse --git-dir) >/dev/null 2>&1; then
   tracked_private="$(cd "$repo_root" && git ls-files -- private | grep -vx 'private/README.md')"

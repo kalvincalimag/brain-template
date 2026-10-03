@@ -32,6 +32,11 @@ for p in "${profiles[@]}"; do
   done
 done
 
+# Scripts must run on macOS (bash 3.2, BSD tools) as well as Linux and Git Bash on Windows.
+non_portable='declare -A|mapfile|readarray|local -n|\$\{[A-Za-z_]+(,,|\^\^)\}|sed -i|grep -[a-zA-Z]*P|readlink -f|date -d'
+check_not "a script uses a bash-4-only feature or a GNU-only flag" \
+  grep -nE -- "$non_portable" "$template_root/scripts/new-brain.sh" "$template_root/core/scripts/validate-brain.sh" "$template_root/core/tests/validate-brain-structure.sh"
+
 # Skills are out of scope for brains, so the template ships none.
 check "template contains a skill" test -z "$(find "$template_root/core" "$template_root/profiles" -name SKILL.md)"
 check_not "core still has a skills/ folder" test -e "$template_root/core/skills"
@@ -90,13 +95,13 @@ done
 # Real paths and names have spaces, quotes, and ampersands.
 dest="$work/with space/Someone's brain"
 odd_name="Someone's \"Admin\" Brain & Co"
-check "spaced path: new-brain.sh failed" bash "$new_brain" --dest "$dest" --name "$odd_name" --purpose "Purpose" --profile personal-admin
+check "spaced path: new-brain.sh failed" bash "$new_brain" --dest "$dest" --name "$odd_name" --purpose "Purpose" --profile life-admin
 check "spaced path: validator fails" bash "$dest/scripts/validate-brain.sh"
 check "spaced path: odd name not in README" grep -qxF "# $odd_name" "$dest/README.md"
 
 # A profile named twice is applied once.
-check "repeated profile: new-brain.sh failed" bash "$new_brain" --dest "$work/repeat" --name X --purpose Y --profile personal-admin --profile personal-admin
-check "repeated profile: origin lists it twice" grep -q 'Profiles: personal-admin\.$' "$work/repeat/memory/overview.md"
+check "repeated profile: new-brain.sh failed" bash "$new_brain" --dest "$work/repeat" --name X --purpose Y --profile life-admin --profile life-admin
+check "repeated profile: origin lists it twice" grep -q 'Profiles: life-admin\.$' "$work/repeat/memory/overview.md"
 
 # The new brain lets the agent run its own check and read git state without prompts.
 check "settings do not allow the validator" grep -qF '"Bash(bash scripts/validate-brain.sh)"' "$work/core-only/.claude/settings.json"

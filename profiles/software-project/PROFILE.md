@@ -6,7 +6,7 @@ The brain tracks a software product or engineering project: its product intent, 
 
 ## Do not use when
 
-The purpose is personal, financial, or administrative. Use `personal-admin` for those, or core only.
+The purpose is personal, financial, or administrative. Use `life-admin` for those, or core only.
 
 ## What it adds
 

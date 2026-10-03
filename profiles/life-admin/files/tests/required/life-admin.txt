@@ -1,4 +1,4 @@
-# Files the personal-admin profile adds.
+# Files the life-admin profile adds.
 memory/profile.md
 memory/obligations.md
 memory/documents.md

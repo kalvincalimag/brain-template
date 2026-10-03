@@ -10,7 +10,7 @@ These instructions apply to this whole directory. Follow, in order:
 
 This brain is standalone. It does not inherit facts, decisions, people, or assumptions from any other brain, and it does not write to one. Do not read from or write to another brain unless the user asks for a scoped transfer. Treat transferred material as unverified source material until it is reviewed and deliberately promoted.
 
-`AGENTS.md` is the canonical agent contract. Model-specific files such as `CLAUDE.md` may add narrow guidance but must not duplicate or contradict it.
+`AGENTS.md` is the canonical agent contract for every AI agent that works here. Agents that read `AGENTS.md` directly, such as OpenAI Codex, need nothing else. An agent-specific adapter, such as `CLAUDE.md` for Claude Code, only points its agent here and adds narrow guidance. An adapter must not duplicate or contradict this file.
 
 ## Purpose
 
@@ -41,9 +41,9 @@ Before researching a question or asking the user for a fact, check whether this 
 - `private/` holds sensitive values the user chose to keep. Git ignores everything in it except its `README.md`.
 - `templates/` holds content-free document shapes.
 - `scripts/` and `tests/` hold this brain's structure checks.
-- `.claude/settings.json` holds Claude Code settings for this brain.
+- `CLAUDE.md` and `.claude/settings.json` are the Claude Code adapter. Other agents ignore them.
 
-A brain holds knowledge only. Skills are out of scope. Claude Code loads the user's installed skills in every session, including sessions here, so this brain never contains a skill. A repeatable procedure, such as how a payment is made, is knowledge. Record it in `memory/` with the date each step was last confirmed.
+A brain holds knowledge only. Skills are out of scope. The user keeps skills and custom instructions in their own agent setup, which loads in every session, including sessions here. So this brain never contains a skill. A repeatable procedure, such as how a payment is made, is knowledge. Record it in `memory/` with the date each step was last confirmed.
 
 ## Knowledge standards
 
@@ -53,6 +53,7 @@ A brain holds knowledge only. Skills are out of scope. Claude Code loads the use
 - Record decisions with context, alternatives, tradeoffs, and reversal conditions.
 - Promote material into `memory/` only when it is stable, reusable, and still accurate.
 - When knowledge goes stale, update or supersede it. Do not leave contradictions in place.
+- This brain is the only memory store for its subject. Do not save its knowledge in an agent tool's built-in memory, where other agents and later sessions in other tools cannot see it.
 
 ## Sensitive data
 

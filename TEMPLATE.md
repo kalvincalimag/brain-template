@@ -1,27 +1,37 @@
 # Template maintenance
 
-This file is the contract for changing brain-template. The `new-brain` skill follows it every time it creates a brain, so the template improves a little with each new purpose.
+This file is the contract for building brains from this template and for changing it. Any AI agent can follow it. A tool that wraps this procedure, such as an agent skill, should point here instead of copying it, so the procedure improves with the template.
+
+## Requirements
+
+The scripts need `git`, `bash` 3.2 or later, and `perl`.
+
+- macOS includes all three.
+- On Windows, use Git Bash, which comes with Git for Windows.
+- Linux distributions include all three.
 
 ## What lives where
 
 - `core/` goes into every brain. A change belongs in core only when every brain, whatever its purpose, is better for it.
-- `profiles/<name>/` holds structure for one class of purpose, such as personal administration or a software project. A brain can use several profiles at once.
-- The new brain holds everything about its own subject. That includes names, numbers, dates, jurisdictions, rates, and decisions.
+- `profiles/<name>/` holds structure for one class of purpose. A brain can use several profiles at once.
+- The new brain holds everything about its own subject. That includes names, numbers, dates, places, rates, and decisions.
 
 When unsure between core and a profile, choose the profile. When unsure between a profile and the brain, choose the brain. Moving something up later is cheap. Removing something every brain already copied is not.
 
 Two breadth checks keep the template general. Write their answers in the changelog line.
 
 - Before changing core, name three unrelated purposes that would each be better for the change. If you cannot, the change is not core.
-- Before adding a profile, name two different brains that would use it. Name the profile for a class of purpose, such as `personal-admin`, never for one domain, country, or agency, such as `philippine-taxes`. Prefer extending an existing profile over adding a new one.
+- Before adding a profile, name two different brains that would use it. Name the profile for a class of purpose, such as `life-admin`, never for one domain, country, or organization. Prefer extending an existing profile over adding a new one.
 
 ## What never enters the template
 
 - Facts about a person, project, or organization.
-- Facts that go stale: rates, deadlines, prices, laws, versions, and URLs to specific forms.
+- Facts that go stale: rates, deadlines, prices, laws, versions, and links to specific forms.
+- Examples that reveal what the template's owner uses it for. Use neutral examples.
 - Credentials of any kind.
 - Content copied from an existing brain. Carry over only the structural idea, rewritten so it fits any subject.
-- Skills of any kind. Skills are out of scope for brains. They are the user's own tools, installed in `~/.claude/skills`, and Claude Code loads them in every session, including sessions in a brain. A brain records repeatable procedures as knowledge in `memory/`. The tests and every brain's validator fail on any `SKILL.md`.
+- Skills of any kind. Skills are out of scope for brains. They are the user's own tools, kept in the user's agent setup, which loads them in every session, including sessions in a brain. A brain records repeatable procedures as knowledge in `memory/`. The tests and every brain's validator fail on any `SKILL.md`.
+- Anything that only works with one AI agent, except a thin adapter file such as `core/CLAUDE.md`. `core/AGENTS.md` is the contract every agent reads.
 
 ## Profile anatomy
 
@@ -38,28 +48,64 @@ A profile never writes a path that core or another profile writes. `scripts/new-
 
 `scripts/new-brain.sh` fills these in every `.md` file of a new brain: `{{BRAIN_NAME}}`, `{{PURPOSE}}`, `{{CREATED}}`, `{{TEMPLATE_REF}}`, and `{{PROFILES}}`. The brain's validator fails if any is left.
 
+## Create a brain
+
+1. **Get the purpose.** Ask what the brain is for, what it should help decide or do, and what is out of scope. If the request already says, restate it in one sentence and confirm it in the interview. Do not continue without a purpose.
+2. **Sync the template.** In this repository, the branch must be `main` with no uncommitted changes. Pull the latest with `git pull --ff-only`. If there are uncommitted changes or the branch has diverged, stop and ask.
+3. **Review fitness.** Follow "Fitness review" below for this purpose.
+4. **Improve the template, only where the review found a gap.** Follow "Changing the template" for each core or profile gap. If every gap is brain-level, change nothing.
+5. **Interview.** Ask in one batch: the brain's name, where to create it, and the "Interview" questions of each chosen profile. Skip anything already answered.
+6. **Create.** Run this, repeating `--profile` for each chosen profile:
+
+   ```bash
+   bash scripts/new-brain.sh --dest "<path>" --name "<name>" --purpose "<one-paragraph purpose>" --profile <profile>
+   ```
+
+7. **Personalize.** In the new brain:
+   - Fill `memory/overview.md` with scope, out of scope, and authority.
+   - Record the interview answers in the files each profile names. Record only what the user stated, dated, and mark anything uncertain as unverified.
+   - Do not research outside rules now unless the user asks. Sourced research belongs in the brain's first real session.
+   - Handle the brain-level gaps from the fit report, such as a memory file this purpose needs.
+   - Update "Active context" in `memory/MEMORY.md`.
+   - Write `sessions/YYYY/MM/YYYY-MM-DD-brain-created.md` from `templates/session-summary.md`, with the fit report.
+8. **Verify.**
+   - In the brain, run `bash scripts/validate-brain.sh`.
+   - Start a fresh agent session in the brain without tools, for example `claude -p "<question>"` or `codex exec "<question>"`. Ask what the brain is for and which memory files its index lists. The answer must name the purpose and the profile's memory files. That proves a new session loads the brain.
+   - If no agent command is available, say this check did not run.
+9. **Publish, with permission.** Ask the user before committing or pushing template changes, and before the brain's first commit. After a template commit, replace the "Origin" line in the brain's `memory/overview.md` with the new short commit hash. If the user declines the template push, say that this repository holds unpublished changes and that the next creation stops at step 2 until they are published or discarded.
+
 ## Fitness review
 
-Run this before creating any brain. Do not assume the template fits because a profile's name sounds right.
+Do not assume the template fits because a profile's name sounds right.
 
-1. Write the purpose as a class without personal facts. "Personal tax and government contributions" becomes "personal administration".
+1. Write the purpose as a class, without personal facts. A purpose about one person's household paperwork becomes "life admin".
 2. Read every file in `core/`. For each, decide whether this brain needs it, whether it would mislead, and whether anything is missing.
 3. Read each `profiles/*/PROFILE.md`. Choose the profiles whose "Use when" fits and whose "Do not use when" does not. Read the files of each chosen profile the same way as core.
 4. List every gap and mismatch. Give each one a level: core, profile, or brain, using the rules in "What lives where".
-5. Fix the core and profile items in the template, following "Changing the template". Brain-level items are handled after the brain exists.
-6. Keep the fit report short. It goes into the new brain's first session file and into the changelog line below.
+5. Keep the fit report short. It goes into the new brain's first session file and, when the template changes, into the changelog.
 
 ## Changing the template
 
 1. Make the smallest structural change that closes the gap.
 2. If the change alters `scripts/new-brain.sh`, the validator, or how profiles compose, add a check to `tests/test-template.sh` first and watch it fail.
 3. Run `bash tests/test-template.sh` until it passes.
-4. Add a dated line to the changelog: the purpose class that exposed the gap, what changed, and why.
+4. Add a dated line to the changelog: the purpose class that exposed the gap, what changed, why, and the breadth check answers.
 5. Commit and push only with the user's authorization.
+
+## Carry feedback back from a brain
+
+A brain records structural improvements in its `planning/template-feedback.md`.
+
+1. Read only that file and any structural file an entry names. Do not read the brain's memory, sessions, records, or `private/`.
+2. Sync the template, as in "Create a brain" step 2.
+3. For each entry, choose core, profile, or reject. Rewrite the idea so it holds no facts about that brain's subject. Apply it and run the tests.
+4. In the brain's feedback file, mark each entry as carried over, with the date and template commit, or as rejected, with the reason.
+5. Ask before committing and pushing the template.
 
 ## Changelog
 
-- 2026-10-03, personal administration: the first non-software purpose showed that the template assumed a software project. Split it into `core/` and `profiles/`. Moved product, project, and team memory, `migrations/`, and the ten workflow skills into the `software-project` profile. Added the `personal-admin` profile with obligations, records, documents, and a startup deadline check. Core gained `private/` for sensitive values, `@` imports in `CLAUDE.md` so memory loads at launch, auto memory turned off so `memory/` is the only store, a `/writeback` command, writeback without being asked, a recorded template origin, and `planning/template-feedback.md` for carrying improvements back. Added `scripts/new-brain.sh`, `tests/test-template.sh`, and the breadth checks. Breadth: `personal-admin` fits a household budget brain and a visa or relocation brain as well as taxes; the core additions help a learning brain, a health brain, and a software brain alike.
-- 2026-10-03, software project: the profile carried ten skill copies that duplicated and drifted from the user's skills pack. Removed them. The profile now names the pack skills it needs, and `TEMPLATE.md` forbids copying pack skills into the template. Breadth: removal only; every software brain now shares one current set of skills.
-- 2026-10-03, all purposes: skills are now out of scope for brains. Removed core's `skills/` folder and the `/writeback` skill; writeback is triggered by asking for it. Removed the software-project skill list. Procedures are recorded as knowledge in `memory/`. The template tests and each brain's validator now fail on any `SKILL.md`. Breadth: applies to every brain, since the user's installed skills already load in every session.
-- 2026-10-03, all purposes (adversarial review): brains sometimes skipped the session file for a decision, so `AGENTS.md` now lists exactly when a session file is required, says writeback needs no commit, and tells the agent to search the brain before researching or asking. `memory/MEMORY.md` caps recent sessions at ten so the index stays under 200 lines. Brain settings allow the validator and read-only git commands without prompts. `new-brain.sh` and the validator now work with apostrophes in paths and ignore a repeated profile. Breadth: every brain benefits.
+- 2026-10-03, life admin: the first non-software purpose showed that the template assumed a software project. Split it into `core/` and `profiles/`. Moved product, project, and team memory and `migrations/` into the `software-project` profile. Added a life-admin profile with obligations, records, documents, and a startup due-date check. Core gained `private/` for sensitive values, adapter imports so memory loads at launch, writeback without being asked, a recorded template origin, and `planning/template-feedback.md`. Added `scripts/new-brain.sh`, `tests/test-template.sh`, and the breadth checks. Breadth: the life-admin profile fits a household brain and a relocation brain; the core additions help a learning brain, a health brain, and a software brain.
+- 2026-10-03, software project: the profile carried ten skill copies that duplicated and drifted from the owner's own skills. Removed them.
+- 2026-10-03, all purposes: skills are out of scope for brains. Removed core's `skills/` folder and its writeback skill; writeback is triggered by asking for it. Procedures are recorded as knowledge in `memory/`. The tests and each brain's validator fail on any `SKILL.md`. Breadth: every brain, since the user's own skills already load in every session.
+- 2026-10-03, all purposes (adversarial review): `AGENTS.md` now lists exactly when a session file is required, says writeback needs no commit, and tells the agent to search the brain before researching or asking. `memory/MEMORY.md` caps recent sessions at ten. Brain settings allow the validator and read-only git commands without prompts. `scripts/new-brain.sh` and the validator handle apostrophes in paths and a repeated profile. Breadth: every brain.
+- 2026-10-03, all purposes: the template now serves any AI agent on macOS, Windows, or Linux. The creation procedure moved into this file from an agent-specific skill, and a root `AGENTS.md` points agents here. `core/AGENTS.md` treats `CLAUDE.md` as one adapter among agents. Requirements are documented, and a test rejects bash-4-only features and GNU-only flags. The first profile became `life-admin`, rewritten in neutral terms, and examples that described the owner's own use were removed. Breadth: every brain, whichever agent or operating system its owner uses.

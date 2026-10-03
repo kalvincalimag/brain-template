@@ -6,14 +6,9 @@ This is a brain: a local, curated knowledge base that an agent reads at the star
 
 ## Use it
 
-```bash
-cd <this directory>
-claude
-```
+Open a terminal in this directory and start your AI agent there, for example `claude` for Claude Code or `codex` for OpenAI Codex. The agent reads `AGENTS.md` and the memory index `memory/MEMORY.md` first. Ask for what you need. When the work produced something worth keeping, the agent records it before it answers. Say "write back" to force that step.
 
-Claude loads `AGENTS.md` and `memory/MEMORY.md` on launch. Ask for what you need. When the work produced something worth keeping, the agent records it before it answers. Say "write back" to force that step.
-
-The brain holds knowledge, not skills. Your installed Claude skills work here as they do anywhere else.
+The brain holds knowledge, not skills. Your agent's own skills and settings work here as they do anywhere else.
 
 ## Structure
 
