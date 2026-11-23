@@ -41,9 +41,14 @@ check_not "a script uses a bash-4-only feature or a GNU-only flag" \
 check "template contains a skill" test -z "$(find "$template_root/core" "$template_root/profiles" -name SKILL.md)"
 check_not "core still has a skills/ folder" test -e "$template_root/core/skills"
 
-# The template never carries content from the brain it was derived from.
-check_not "template contains source-brain content" \
-  grep -rEil --exclude-dir=.git 'source-brain-name' "$template_root/core" "$template_root/profiles"
+# The template never carries content from a brain. The names to look for are private, so
+# they live in a file outside the repository, one per line, named by BRAIN_TEMPLATE_BLOCKLIST.
+# The check is skipped when that variable is unset.
+if [ -n "${BRAIN_TEMPLATE_BLOCKLIST:-}" ]; then
+  check "blocklist file is readable" test -r "$BRAIN_TEMPLATE_BLOCKLIST"
+  check_not "template contains a blocklisted name" \
+    grep -rFil --exclude-dir=.git -f "$BRAIN_TEMPLATE_BLOCKLIST" "$template_root/core" "$template_root/profiles"
+fi
 
 assert_instance() {
   local label="$1" dest="$2" purpose="$3"

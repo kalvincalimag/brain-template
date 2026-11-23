@@ -91,7 +91,7 @@ Do not assume the template fits because a profile's name sounds right.
 
 1. Make the smallest structural change that closes the gap. Before writing it, check it against "What never enters the template": if it would fit only users in one country, with one institution, or with one agent, it belongs in the brain, not here.
 2. If the change alters `scripts/new-brain.sh`, the validator, or how profiles compose, add a check to `tests/test-template.sh` first and watch it fail.
-3. Run `bash tests/test-template.sh` until it passes.
+3. Run `bash tests/test-template.sh` until it passes. To also check that no brain's names leaked into the template, keep a list of those names outside the repository, one per line, and set `BRAIN_TEMPLATE_BLOCKLIST` to its path.
 4. Add a dated line to the changelog: the purpose class that exposed the gap, what changed, why, and the breadth check answers.
 5. Commit and push only with the user's authorization.
 
